@@ -176,10 +176,10 @@ def eval(model, tokenizer, dataloader, device, epoch):
                 outputs = model.language_model.generate(
                     inputs_embeds=inputs_embeds,
                     attention_mask=prepare_input.attention_mask,
-                    pad_token_id=tokenizer.eos_token_id,
+                    pad_token_id=tokenizer.pad_token_id,
                     bos_token_id=tokenizer.bos_token_id,
                     eos_token_id=tokenizer.eos_token_id,
-                    max_new_tokens=20,
+                    max_new_tokens=10,
                     do_sample=False,
                     use_cache=False
                 )
@@ -209,6 +209,15 @@ def main():
         tokenizer.add_special_tokens({'pad_token': pad_token})
     pad_token_id = tokenizer.convert_tokens_to_ids(pad_token)
     tokenizer.pad_token_id = pad_token_id
+    print("before:"+vl_chat_processor.system_prompt)
+    vl_chat_processor.system_prompt = (
+        "You are a visual question answering assistant. "
+        "Provide short, direct answers. Few words, no full sentences, no articles, very concise. "
+        "If the question is unanswerable, respond with 'unanswerable'. "
+        "For yes/no questions, respond with 'yes' or 'no'."
+    )# 0.2135
+    print("after:"+vl_chat_processor.system_prompt)
+
 
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -247,10 +256,10 @@ def main():
     os.makedirs('models', exist_ok=True)
     os.makedirs('submissions', exist_ok=True)
 
-    # valid_acc, valid_time = eval(model, tokenizer, valid_loader, device, -1)
-    # print(f"【{0}/{num_epoch}】\n"
-    #         f"valid time: {valid_time:.2f} [s]\n"
-    #         f"valid acc: {valid_acc:.4f}\n")
+    valid_acc, valid_time = eval(model, tokenizer, valid_loader, device, -1)
+    print(f"【{0}/{num_epoch}】\n"
+            f"valid time: {valid_time:.2f} [s]\n"
+            f"valid acc: {valid_acc:.4f}\n")
 
     best_acc = 0
     best_submission=[]
@@ -276,10 +285,10 @@ def main():
                     outputs = model.language_model.generate(
                         inputs_embeds=inputs_embeds,
                         attention_mask=prepare_input.attention_mask,
-                        pad_token_id=tokenizer.eos_token_id,
+                        pad_token_id=tokenizer.pad_token_id,
                         bos_token_id=tokenizer.bos_token_id,
                         eos_token_id=tokenizer.eos_token_id,
-                        max_new_tokens=20,
+                        max_new_tokens=10,
                         do_sample=False,
                         use_cache=False
                     )
