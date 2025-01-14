@@ -1,5 +1,8 @@
 # DL基礎講座2024　最終課題
-
+[VQA competition](https://github.com/tomomimu12345/dl_lecture_competition_pub/tree/VQA-competition)
+１位 : スコア	0.77247
+[レポート](https://github.com/tomomimu12345/dl_lecture_competition_pub/blob/main/Vizwiz%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8BVQA%E4%BA%88%E6%B8%AC%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E6%A4%9C%E8%A8%8E.pdf)
+----
 ## 概要
 ### 最終課題内容：3つのタスクから1つ選び，高い性能となるモデルを開発してください（コンペティション形式）
 3つのタスクはそれぞれ以下の通りです．必ず**1つ**を選んで提出してください．
